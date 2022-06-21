@@ -8,7 +8,9 @@ class Arkanoid:
         pg.init()
         self.display = pg.display.set_mode((ANCHO, ALTO))
         pg.display.set_caption("Arkanoid BZ 11 Versión")
+        # aqui cargamos un icono en una variable con una direccion de directorio
         icon = pg.image.load("resources/images/icon.png")
+        # aqui seteamos el icono
         pg.display.set_icon(icon)
 
     def jugar(self):

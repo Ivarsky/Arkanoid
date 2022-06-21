@@ -58,3 +58,7 @@ pip install -r requirements-dev.txt
 # en VS code
 code .
 ````
+
+## Atribuciones
+
+<a href="https://www.flaticon.es/iconos-gratis/arkanoid" title="arkanoid iconos">Arkanoid iconos creados por Freepik - Flaticon</a>
