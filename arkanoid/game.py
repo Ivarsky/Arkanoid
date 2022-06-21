@@ -1,4 +1,7 @@
+import os
+
 import pygame as pg
+
 from arkanoid import ALTO, ANCHO
 from arkanoid.escenas import Portada, Partida, HallOfFame
 
@@ -10,7 +13,7 @@ class Arkanoid:
         self.display = pg.display.set_mode((ANCHO, ALTO))
         pg.display.set_caption("Arkanoid BZ 11 Versión")
         # aqui cargamos un icono en una variable con una dirección de directorio
-        icon = pg.image.load("resources/images/icon.png")
+        icon = pg.image.load(os.path.join("resources", "images", "icon.png"))
         # aqui seteamos el icono
         pg.display.set_icon(icon)
 
