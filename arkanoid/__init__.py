@@ -1,2 +1,7 @@
+from curses import COLOR_BLACK
+
+
 ANCHO = 800
 ALTO = 600
+
+COLOR_MENSAJE = (255, 255, 255)
