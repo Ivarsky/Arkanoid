@@ -3,7 +3,7 @@ import os
 
 import pygame as pg
 
-from . import ANCHO, ALTO, COLOR_MENSAJE
+from . import ANCHO, ALTO, COLOR_FONDO_PORTADA, COLOR_MENSAJE
 
 
 class Escena:
@@ -39,7 +39,7 @@ class Portada(Escena):
                 if event.type == pg.QUIT:
                     pg.quit()
 
-            self.pantalla.fill((99, 0, 0))
+            self.pantalla.fill(COLOR_FONDO_PORTADA)
 
             self.pintar_logo()
             self.pintar_texto()
@@ -62,6 +62,18 @@ class Portada(Escena):
 
 
 class Partida(Escena):
+    """
+1. Cargar la imagen de fondo en memoria , done
+2. creamos una función para "pintar Fondo"
+3. Llamar a la función "pintar_fondo" en el bucle principal para que el fondo se pinte
+4. 
+    """
+
+    def __init__(self, pantalla: pg.Surface):
+        super().__init__(pantalla)
+        bg_file = os.path.join("resources", "images", "background.jpg")
+        self.fondo = pg.image.load(bg_file)
+
     def bucle_principal(self):
         salir = False
         while not salir:
@@ -69,7 +81,11 @@ class Partida(Escena):
                 if event.type == pg.QUIT:
                     pg.quit()
             self.pantalla.fill((0, 99, 0))
+            self.pintar_fondo()
             pg.display.flip()
+
+    def pintar_fondo(self):
+        self.pantalla.blit(self.fondo, (0, 0))
 
 
 class HallOfFame(Escena):
