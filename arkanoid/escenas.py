@@ -3,12 +3,14 @@ import os
 
 import pygame as pg
 
-from . import ANCHO, ALTO, COLOR_FONDO_PORTADA, COLOR_MENSAJE
+from . import ANCHO, ALTO, COLOR_FONDO_PORTADA, COLOR_MENSAJE, FPS
+from .entidades import Raqueta
 
 
 class Escena:
     def __init__(self, pantalla: pg.Surface):
         self.pantalla = pantalla
+        self.reloj = pg.time.Clock()
 
     def bucle_principal(self):
         """
@@ -73,15 +75,23 @@ class Partida(Escena):
         super().__init__(pantalla)
         bg_file = os.path.join("resources", "images", "background.jpg")
         self.fondo = pg.image.load(bg_file)
+        self.jugador = Raqueta()
 
     def bucle_principal(self):
         salir = False
         while not salir:
+            self.reloj.tick(FPS)
+            self.jugador.update()
+
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
-            self.pantalla.fill((0, 99, 0))
+            self.pantalla.fill((0, 0, 66))
             self.pintar_fondo()
+
+            # probamos pintar la raqueta
+            self.pantalla.blit(self.jugador.image, self.jugador.rect)
+
             pg.display.flip()
 
     def pintar_fondo(self):
