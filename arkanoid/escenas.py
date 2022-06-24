@@ -1,3 +1,4 @@
+from curses import KEY_DOWN
 import os
 
 import pygame as pg
@@ -32,11 +33,17 @@ class Portada(Escena):
         salir = False
         while not salir:
             for event in pg.event.get():
-                if event.type == pg.QUIT:
+                if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                     salir = True
+
+                if event.type == pg.QUIT:
+                    pg.quit()
+
             self.pantalla.fill((99, 0, 0))
+
             self.pintar_logo()
             self.pintar_texto()
+
             pg.display.flip()
 
     def pintar_logo(self):
@@ -60,7 +67,7 @@ class Partida(Escena):
         while not salir:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    salir = True
+                    pg.quit()
             self.pantalla.fill((0, 99, 0))
             pg.display.flip()
 
@@ -71,6 +78,6 @@ class HallOfFame(Escena):
         while not salir:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    salir = True
+                    pg.quit()
             self.pantalla.fill((0, 0, 99))
             pg.display.flip()
