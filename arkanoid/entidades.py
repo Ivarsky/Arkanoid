@@ -3,7 +3,7 @@ import os
 import pygame as pg
 from pygame.sprite import Sprite
 
-from . import ALTO, ANCHO
+from . import ALTO, ANCHO, FPS
 
 """
 1. Crear una clase Raqueta
@@ -22,27 +22,54 @@ para animar las imágenes:
 class Raqueta(Sprite):
 
     margen_inferior = 20
+    velocidad = 5
+    fps_animacion = 12
+    limite_iteracion = FPS // fps_animacion
+    iteracion = 0
 
     def __init__(self):
         super().__init__()
 
-        self.sprites = [
-            pg.image.load(os.path.join(
-                "resources", "images", "electric00.png")),
-            pg.image.load(os.path.join(
-                "resources", "images", "electric01.png")),
-            pg.image.load(os.path.join(
-                "resources", "images", "electric02.png"))
-        ]
-        self.contador = 0
+        self.sprites = []
+        for i in range(3):
+            self.sprites.append(pg.image.load(os.path.join(
+                "resources", "images", f"electric0{i}.png")))
+        # hace lo mismo que arriba ^
+        # self.sprites = [
+        #     pg.image.load(os.path.join(
+        #         "resources", "images", "electric00.png")),
+        #     pg.image.load(os.path.join(
+        #         "resources", "images", "electric01.png")),
+        #     pg.image.load(os.path.join(
+        #         "resources", "images", "electric02.png"))
+        # ]
+        self.siguiente_imagen = 0
+        self.image = self.sprites[self.siguiente_imagen]
 
-        image_path = os.path.join("resources", "images", "electric00.png")
-        self.image = pg.image.load(image_path)
         self.rect = self.image.get_rect(
             midbottom=(ANCHO/2, ALTO-self.margen_inferior))
 
     def update(self):
-        self.image = self.sprites[self.contador]
-        self.contador += 1
-        if self.contador > 2:
-            self.contador = 0
+        # valor booleano de tecla pulsada a la variable tecla
+        tecla = pg.key.get_pressed()
+        # si la tecla es flecha derecha, suma píxeles a la posicion del rectangulo (la raqueta)
+        if tecla[pg.K_RIGHT]:
+            self.rect.x += self.velocidad
+        # evitamos que la raqueta se salga por la derecha
+            if self.rect.right > ANCHO:
+                self.rect.right = ANCHO
+        # igual que arriba pero moviendo a izquierda y con tecla flecha izquierda
+        if tecla[pg.K_LEFT]:
+            self.rect.x -= self.velocidad
+        # evitamos que la raqueta se salga por la izquierda
+            if self.rect.left < 0:
+                self.rect.left = 0
+
+        # animamos el rayo de la raqueta
+        self.iteracion += 1
+        if self.iteracion == self.limite_iteracion:
+            self.siguiente_imagen += 1
+            if self.siguiente_imagen >= len(self.sprites):
+                self.siguiente_imagen = 0
+            self.image = self.sprites[self.siguiente_imagen]
+            self.iteracion = 0

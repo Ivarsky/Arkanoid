@@ -36,6 +36,7 @@ class Portada(Escena):
         while not salir:
             for event in pg.event.get():
                 if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
+                    print("salimos de portada")
                     salir = True
 
                 if event.type == pg.QUIT:
