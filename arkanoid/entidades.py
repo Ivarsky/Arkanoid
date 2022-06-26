@@ -88,9 +88,9 @@ class Ladrillo(Sprite):
         super().__init__()
 
         ladrillo_verde = os.path.join(
-            "resources", "images", "greenTile.jpg")
+            "resources", "images", "greenTile.png")
         self.image = pg.image.load(ladrillo_verde)
         ancho = self.image.get_width()
         alto = self.image.get_height()
 
-        self.rect = self.image.get_rect(x=fila * ancho, y=columna * alto)
+        self.rect = self.image.get_rect(x=columna * ancho, y=fila * alto)
