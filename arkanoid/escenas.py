@@ -4,7 +4,7 @@ import os
 import pygame as pg
 
 from . import ANCHO, ALTO, COLOR_FONDO_PORTADA, COLOR_MENSAJE, FPS
-from .entidades import Raqueta, Ladrillo
+from .entidades import Pelota, Raqueta, Ladrillo
 
 
 class Escena:
@@ -78,6 +78,7 @@ class Partida(Escena):
         self.fondo = pg.image.load(bg_file)
         self.jugador = Raqueta()
         self.crear_muro()
+        self.pelotita = Pelota(midbottom=self.jugador.rect.midtop)
 
     def bucle_principal(self):
         salir = False
@@ -92,10 +93,15 @@ class Partida(Escena):
             self.pintar_fondo()
 
             # pintar la raqueta
+            self.jugador.update()
             self.pantalla.blit(self.jugador.image, self.jugador.rect)
 
             # pintar el muro
             self.ladrillos.draw(self.pantalla)
+
+            # pintar la pelota
+            self.pelotita.update(self.jugador, False)
+            self.pantalla.blit(self.pelotita.image, self.pelotita.rect)
 
             pg.display.flip()
 
