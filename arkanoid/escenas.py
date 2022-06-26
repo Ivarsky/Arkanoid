@@ -82,6 +82,7 @@ class Partida(Escena):
 
     def bucle_principal(self):
         salir = False
+        partida_iniciada = False
         while not salir:
             self.reloj.tick(FPS)
             self.jugador.update()
@@ -89,6 +90,9 @@ class Partida(Escena):
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
+                if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
+                    partida_iniciada = True
+
             self.pantalla.fill((0, 0, 66))
             self.pintar_fondo()
 
@@ -100,7 +104,7 @@ class Partida(Escena):
             self.ladrillos.draw(self.pantalla)
 
             # pintar la pelota
-            self.pelotita.update(self.jugador, False)
+            self.pelotita.update(self.jugador, partida_iniciada)
             self.pantalla.blit(self.pelotita.image, self.pelotita.rect)
 
             pg.display.flip()

@@ -97,6 +97,10 @@ class Ladrillo(Sprite):
 
 
 class Pelota(Sprite):
+
+    velocidad_x = -5
+    velocidad_y = -5
+
     def __init__(self, **kwargs):
         super().__init__()
         pelota = os.path.join(
@@ -107,3 +111,20 @@ class Pelota(Sprite):
     def update(self, raqueta, juego_iniciado):
         if not juego_iniciado:
             self.rect = self.image.get_rect(midbottom=raqueta.rect.midtop)
+        else:
+            self.rect.x += self.velocidad_x
+            if self.rect.right > ANCHO or self.rect.left < 0:
+                self.velocidad_x = - self.velocidad_x
+
+            self.rect.y += self.velocidad_y
+            if self.rect.top <= 0:
+                self.velocidad_y = -self.velocidad_y
+            if self.rect.top > ALTO:
+                self.pierdes()
+                self.reset()
+
+    def pierdes(self):
+        print("pierdes una vida")
+
+    def reset(self):
+        print("Recolocamos la pelota en su posicion inicial")
