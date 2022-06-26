@@ -86,6 +86,14 @@ class Partida(Escena):
         while not salir:
             self.reloj.tick(FPS)
             self.jugador.update()
+            self.pelotita.update(self.jugador, partida_iniciada)
+            self.pelotita.hay_colision(self.jugador)
+            golpeados = pg.sprite.spritecollide(
+                self.pelotita, self.ladrillos, True)
+            if len(golpeados) > 0:
+                self.pelotita.velocidad_y *= -1
+                # para los ladrillos golpeados, sumar puntuacion
+                # for ladrillo in golpeados:
 
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -97,14 +105,12 @@ class Partida(Escena):
             self.pintar_fondo()
 
             # pintar la raqueta
-            self.jugador.update()
             self.pantalla.blit(self.jugador.image, self.jugador.rect)
 
             # pintar el muro
             self.ladrillos.draw(self.pantalla)
 
             # pintar la pelota
-            self.pelotita.update(self.jugador, partida_iniciada)
             self.pantalla.blit(self.pelotita.image, self.pelotita.rect)
 
             pg.display.flip()

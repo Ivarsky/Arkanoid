@@ -128,3 +128,8 @@ class Pelota(Sprite):
 
     def reset(self):
         print("Recolocamos la pelota en su posicion inicial")
+
+    def hay_colision(self, otro):
+        if self.rect.colliderect(otro):
+            # hay colision
+            self.velocidad_y = - self.velocidad_y
